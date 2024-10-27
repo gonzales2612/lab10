@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+
+</head>
+<body>
+    <div class="container">
+        {{#logout_message}}
+            <div class="logout-message">{{logout_message}}</div>
+        {{/logout_message}}
+
+        <h1>{{message}}</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Complete Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#data}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{complete_name}}</td>
+                    <td>{{email}}</td>
+                </tr>
+                {{/data}}
+            </tbody>
+        </table>
+
+        <a href="#" class="logout-btn" onclick="confirmLogout()">Logout</a>
+    </div>
+
+    <script>
+        function confirmLogout() {
+            const confirmation = confirm("Are you sure you want to log out?");
+            if (confirmation) {
+                window.location.href = "/logout"; // Redirect to the logout URL
+            }
+        }
+    </script>
+</body>
+</html>

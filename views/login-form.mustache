@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    
+</head>
+<body>
+
+<div class="main__container">
+    <div class="login-card">
+        <h2>Login Form</h2>
+
+        <!-- Display any errors -->
+        {{#errors}}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {{#errors}}
+                    <li>{{.}}</li>
+                {{/errors}}
+            </ul>
+        </div>
+        {{/errors}}
+
+        <!-- Display remaining login attempts only if there are errors -->
+        {{#remaining_attempts}}
+            <div class="alert alert-warning" role="alert">
+                You have {{remaining_attempts}} attempt(s) left.
+            </div>
+        {{/remaining_attempts}}
+
+        <!-- Disable button and show timer if maximum attempts reached -->
+        {{#form_disabled}}
+            <div class="alert alert-warning" role="alert">
+                You have reached the maximum number of login attempts. Please wait <span id="timer">{{timer}}</span> seconds.
+            </div>
+        {{/form_disabled}}
+
+        <!-- Form fields -->
+        <form action="/login" method="POST">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary" id="loginButton" {{#form_disabled}}disabled{{/form_disabled}}>Login</button>
+            </div>
+        </form>
+
+        <!-- Registration link -->
+        <div class="text-center mt-3">
+            <p>Don't have an account? <a href="/registration-form" class="link-primary">Register here</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if the form is disabled
+        const timerElement = document.getElementById('timer');
+        const loginButton = document.getElementById('loginButton');
+
+        if (timerElement) {
+            let countdown = parseInt(timerElement.innerText);
+            const interval = setInterval(function() {
+                countdown--;
+                timerElement.innerText = countdown;
+
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    loginButton.disabled = false; // Re-enable button
+                }
+            }, 1000);
+        }
+    });
+</script>
+
+</body>
+</html>
